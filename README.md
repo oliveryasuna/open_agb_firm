@@ -9,15 +9,22 @@ This fork adds the following features:
 
 ## Cheats
 
-Similar to save files, which are stored at `sdmc:/3ds/open_agb_firm/saves/{ROM_FILENAME}.sav`, cheats are stored at `sdmc:/3ds/open_agb_firm/cheats/{ROM_FILENAME}.cht`.
+This fork adds support for Action Replay (PARv3) cheat codes. Cheat files use the `.cht` extension and contain one code per line in `XXXXXXXX YYYYYYYY` format. Lines starting with `#` or `;` are treated as comments.
 
-Example cheat file for Pokemon Emerald:
+By default (`useCheatsFolder=true` in `config.ini`), cheat files are loaded from:
+
+```
+sdmc:/3ds/open_agb_firm/cheats/{ROM_NAME}.cht
+```
+
+When `useCheatsFolder=false`, the `.cht` file is loaded from the same directory as the ROM.
+
+Up to 25 cheat codes are supported per game. RAM write codes (8/16/32-bit) are applied every VBlank. ROM patch codes are applied directly at load time.
+
+**Example** (`sdmc:/3ds/open_agb_firm/cheats/Pokemon - Emerald Version (USA, Europe).cht`):
 
 ```
 # Walk through walls
 7881A409 E2026E0C
 8E883EFF 92E9660D
 ```
-
-This fork also supports the configuration option `useCheatsFolder`.
-It behaves the same as `useSavesFolder`, but for cheats instead of saves.
