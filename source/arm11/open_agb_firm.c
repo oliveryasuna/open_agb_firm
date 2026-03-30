@@ -405,6 +405,8 @@ void oafUpdate(void)
 	waitForEvent(g_frameReadyEvent);
 	clearEvent(g_frameReadyEvent);
 
+	if(g_oafConfig.showOsd)
+		OAF_osdUpdate();
 }
 
 void oafFinish(void)

@@ -21,7 +21,9 @@
 #include "arm11/oaf_osd.h"
 #include "arm11/fmt.h"
 #include "arm11/console.h"
+#include "arm11/drivers/mcu.h"
 #include "drivers/gfx.h"
+#include "drivers/cache.h"
 #include "drivers/lgy_common.h"
 
 
@@ -29,6 +31,14 @@ static char s_gameTitle[13];
 static char s_gameCode[5];
 static u32 s_romSize;
 
+
+// Flush only the bottom screen framebuffer.
+// GFX_flushBuffers() flushes both screens and races with gbaGfxHandler on the top screen.
+static void flushBotScreen(void)
+{
+	const u32 size = LCD_WIDTH_BOT * LCD_HEIGHT_BOT * 2; // BGR565 = 2 bytes per pixel.
+	flushDCacheRange(GFX_getBuffer(GFX_LCD_BOT, GFX_SIDE_LEFT), size);
+}
 
 void OAF_osdInit(const u32 romSize)
 {
@@ -45,5 +55,22 @@ void OAF_osdInit(const u32 romSize)
 	consoleClear();
 	ee_printf("Game: %.12s [%.4s]\n", s_gameTitle, s_gameCode);
 	ee_printf("ROM:  %u KiB\n", s_romSize / 1024);
-	GFX_flushBuffers();
+	flushBotScreen();
+}
+
+void OAF_osdUpdate(void)
+{
+	RtcTimeDate td;
+	MCU_getRtcTimeDate(&td);
+
+	const u8 battery = MCU_getBatteryLevel();
+
+	ee_printf("\x1b[0;0H");
+	ee_printf("==open_agb_firm OSD==\n\n");
+	ee_printf("Game: %.12s [%.4s]\n", s_gameTitle, s_gameCode);
+	ee_printf("ROM:  %u KiB\n\n", s_romSize / 1024);
+	ee_printf("Time: 20%02X-%02X-%02X %02X:%02X:%02X\n", td.year, td.mon, td.day, td.hour, td.min, td.sec);
+	ee_printf("Battery: %u%%\n", battery);
+
+	flushBotScreen();
 }

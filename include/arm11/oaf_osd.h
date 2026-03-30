@@ -27,6 +27,7 @@ extern "C"
 #endif
 
 void OAF_osdInit(const u32 romSize);
+void OAF_osdUpdate(void);
 
 #ifdef __cplusplus
 } // extern "C"
