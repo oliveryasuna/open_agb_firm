@@ -267,6 +267,10 @@ Result oafParseConfigEarly(void)
 		res = fMkdir(OAF_SCREENSHOT_DIR);
 		if(res != RES_OK && res != RES_FR_EXIST) break;
 
+		// Create cheats folder.
+		res = fMkdir(OAF_CHEAT_DIR);
+		if(res != RES_OK && res != RES_FR_EXIST) break;
+
 		// Parse the config.
 		res = parseOafConfig("config.ini", &g_oafConfig, true);
 	} while(0);
@@ -308,6 +312,20 @@ Result oafInitAndRun(void)
 			res = parseOafConfig(filePath, &g_oafConfig, false);
 			if(res != RES_OK && res != RES_FR_NO_FILE) break;
 
+			// Build per-game cheat path.
+			char *const cheatPath = (char*)calloc(512, 1);
+			if(cheatPath == NULL) { res = RES_OUT_OF_MEM; break; }
+			if(g_oafConfig.useCheatsFolder)
+			{
+				strcpy(cheatPath, OAF_CHEAT_DIR "/");
+				strcat(cheatPath, strrchr(romFilePath, '/') + 1);
+			}
+			else
+			{
+				strcpy(cheatPath, romFilePath);
+			}
+			strcpy(cheatPath + strlen(cheatPath) - 4, ".cht");
+
 			// Adjust the path for the save file and get save type.
 			gameCfg2SavePath(filePath, g_oafConfig.saveSlot);
 			u16 saveType;
@@ -322,7 +340,8 @@ Result oafInitAndRun(void)
 			free(romFilePath);
 
 			// Load cheats and send to ARM9 (before preparing GBA mode).
-			res = loadCheats("cheats.cht");
+			res = loadCheats(cheatPath);
+			free(cheatPath);
 			if(res != RES_OK) break;
 			if(getCheatCount() > 0)
 			{

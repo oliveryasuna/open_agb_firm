@@ -30,6 +30,7 @@ extern "C"
 #define OAF_WORK_DIR        "sdmc:/3ds/open_agb_firm"
 #define OAF_SAVE_DIR        "saves"       // Relative to work dir.
 #define OAF_SCREENSHOT_DIR  "screenshots" // Relative to work dir.
+#define OAF_CHEAT_DIR       "cheats"      // Relative to work dir.
 
 
 typedef struct
@@ -40,6 +41,7 @@ typedef struct
 	bool directBoot;
 	bool useGbaDb;
 	bool useSavesFolder;
+	bool useCheatsFolder;
 
 	// [video]
 	u8 scaler;          // 0 = 1:1/none, 1 = bilinear (GPU) x1.5, 2 = matrix (hardware) x1.5.
