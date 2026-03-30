@@ -1,5 +1,6 @@
 /.*
 !/.git*
+/build/
 /arm[19]*/build/
 /arm[19]*/open_agb_firm[19]*.*
 /tools/gba-db/gba_db.*

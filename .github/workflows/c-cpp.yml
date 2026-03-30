@@ -41,7 +41,18 @@ jobs:
     - name: Build project
       run: |
         export PATH=$PWD/ctr_firm_builder:$PATH
-        make nightly
+        cmake -B build -DCMAKE_TOOLCHAIN_FILE=cmake/DevkitARM.cmake -DNO_DEBUG=ON
+        cmake --build build
+
+    - name: Package nightly
+      run: |
+        mkdir -p nightly/3ds/open_agb_firm
+        cp build/open_agb_firm.firm nightly/
+        cp LICENSE.txt README.md nightly/
+        cp resources/gba_db.bin nightly/3ds/open_agb_firm/
+        cp libraries/libn3ds/LICENSE.txt nightly/LICENSE_libn3ds.txt
+        cp libraries/libn3ds/libraries/fatfs/LICENSE.txt nightly/LICENSE_FatFs.txt
+        cp libraries/inih/LICENSE.txt nightly/LICENSE_inih.txt
         echo ${{ github.sha }} >> ./nightly/nightly_commit.txt
 
     - name: Upload artifact
