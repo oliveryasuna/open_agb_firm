@@ -6,6 +6,7 @@ See the original project [here](https://github.com/profi200/open_agb_firm).
 
 This fork adds the following features:
 - Cheat support (Action Replay)
+- Bottom screen OSD
 
 ## Cheats
 
@@ -28,3 +29,9 @@ Up to 25 cheat codes are supported per game. RAM write codes (8/16/32-bit) are a
 7881A409 E2026E0C
 8E883EFF 92E9660D
 ```
+
+## Bottom Screen OSD
+
+When enabled, the bottom 3DS screen displays game info, battery level, and the current time while a GBA game is running on the top screen.
+
+Set `showOsd=true` under `[general]` in `config.ini` (or in a per-game `.ini` file) to enable it. Default is `false`.
