@@ -32,7 +32,8 @@
                         "directBoot=false\n"      \
                         "useGbaDb=true\n"         \
                         "useSavesFolder=true\n"   \
-                        "useCheatsFolder=true\n\n" \
+                        "useCheatsFolder=true\n"  \
+                        "showOsd=false\n\n"       \
                                                   \
                         "[video]\n"               \
                         "scaler=matrix\n"         \
@@ -61,6 +62,7 @@ OafConfig g_oafConfig =
 	true,  // useGbaDb
 	true,  // useSavesFolder
 	true,  // useCheatsFolder
+	false, // showOsd
 
 	// [video]
 	2,     // scaler
@@ -152,6 +154,8 @@ static int cfgIniCallback(void *user, const char *section, const char *name, con
 			config->useSavesFolder = (strcmp(value, "true") == 0 ? true : false);
 		else if(strcmp(name, "useCheatsFolder") == 0)
 			config->useCheatsFolder = (strcmp(value, "true") == 0 ? true : false);
+		else if(strcmp(name, "showOsd") == 0)
+			config->showOsd = (strcmp(value, "true") == 0 ? true : false);
 	}
 	else if(strcmp(section, "video") == 0)
 	{

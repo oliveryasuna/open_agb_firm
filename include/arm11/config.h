@@ -42,6 +42,7 @@ typedef struct
 	bool useGbaDb;
 	bool useSavesFolder;
 	bool useCheatsFolder;
+	bool showOsd;
 
 	// [video]
 	u8 scaler;          // 0 = 1:1/none, 1 = bilinear (GPU) x1.5, 2 = matrix (hardware) x1.5.

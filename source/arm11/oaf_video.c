@@ -447,9 +447,13 @@ KHandle OAF_videoInit(void)
 #ifdef NDEBUG
 	// Force black and turn the backlight off on the bottom screen.
 	// Don't turn the backlight off on 2DS (1 panel).
-	GFX_setForceBlack(false, true);
-	if(MCU_getSystemModel() != SYS_MODEL_2DS)
-		GFX_powerOffBacklight(GFX_BL_BOT);
+	// Keep the bottom screen on when OSD is enabled.
+	if(!g_oafConfig.showOsd)
+	{
+		GFX_setForceBlack(false, true);
+		if(MCU_getSystemModel() != SYS_MODEL_2DS)
+			GFX_powerOffBacklight(GFX_BL_BOT);
+	}
 #endif
 
 	// Initialize frame capture.

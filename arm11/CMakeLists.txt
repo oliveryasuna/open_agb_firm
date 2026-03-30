@@ -33,6 +33,7 @@ set(ARM11_PROJECT_SOURCES
     ${CMAKE_SOURCE_DIR}/source/arm11/config.c
     ${CMAKE_SOURCE_DIR}/source/arm11/filebrowser.c
     ${CMAKE_SOURCE_DIR}/source/arm11/gpu_cmd_lists.c
+    ${CMAKE_SOURCE_DIR}/source/arm11/oaf_osd.c
     ${CMAKE_SOURCE_DIR}/source/arm11/oaf_video.c
     ${CMAKE_SOURCE_DIR}/source/arm11/open_agb_firm.c
     ${CMAKE_SOURCE_DIR}/source/arm11/patch.c

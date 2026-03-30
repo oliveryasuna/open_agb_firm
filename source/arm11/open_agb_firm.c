@@ -36,6 +36,7 @@
 #include "arm11/drivers/codec.h"
 #include "drivers/lgy_common.h"
 #include "arm11/oaf_video.h"
+#include "arm11/oaf_osd.h"
 #include "arm11/drivers/lgy11.h"
 #include "kernel.h"
 #include "kevent.h"
@@ -139,10 +140,13 @@ static void updateBacklight(void)
 		if(kHeld == (KEY_X | KEY_DDOWN))
 			changeBacklight(-steps);
 
-		// Disable backlight switching in debug builds on 2DS.
+		// Disable backlight switching on 2DS, and also in debug builds
+		// or when the OSD is active (bottom screen in use).
 		const GfxBl lcd = (MCU_getSystemModel() != SYS_MODEL_2DS ? GFX_BL_TOP : GFX_BL_BOT);
 #ifndef NDEBUG
 		if(lcd != GFX_BL_BOT)
+#else
+		if(lcd != GFX_BL_BOT || !g_oafConfig.showOsd)
 #endif
 		{
 			// Turn off backlight.
@@ -353,6 +357,10 @@ Result oafInitAndRun(void)
 			CODEC_setAudioOutput(g_oafConfig.audioOut);
 			CODEC_setVolumeOverride(g_oafConfig.volume);
 
+			// Draw OSD on the bottom screen (must be before LGY_prepareGbaMode).
+			if(g_oafConfig.showOsd)
+				OAF_osdInit(romSize);
+
 			// Prepare ARM9 for GBA mode + save loading.
 			res = LGY_prepareGbaMode(g_oafConfig.directBoot, saveType, filePath);
 			if(res == RES_OK)
@@ -396,6 +404,7 @@ void oafUpdate(void)
 	updateBacklight();
 	waitForEvent(g_frameReadyEvent);
 	clearEvent(g_frameReadyEvent);
+
 }
 
 void oafFinish(void)

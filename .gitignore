@@ -8,3 +8,5 @@
 /tools/gba-db/gba.*
 !/tools/gba-db/gba.csv
 /open_agb_firm*.*
+
+*git-ignore*
