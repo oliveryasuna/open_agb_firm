@@ -29,6 +29,7 @@ set(ARM11_ARCH_FLAGS
 set(ARM11_PROJECT_SOURCES
     ${CMAKE_SOURCE_DIR}/source/oaf_error_codes.c
     ${CMAKE_SOURCE_DIR}/source/arm11/main.c
+    ${CMAKE_SOURCE_DIR}/source/arm11/cheats.c
     ${CMAKE_SOURCE_DIR}/source/arm11/config.c
     ${CMAKE_SOURCE_DIR}/source/arm11/filebrowser.c
     ${CMAKE_SOURCE_DIR}/source/arm11/gpu_cmd_lists.c

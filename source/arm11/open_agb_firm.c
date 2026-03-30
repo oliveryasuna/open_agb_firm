@@ -32,6 +32,7 @@
 #include "arm11/config.h"
 #include "arm11/save_type.h"
 #include "arm11/patch.h"
+#include "arm11/cheats.h"
 #include "arm11/drivers/codec.h"
 #include "drivers/lgy_common.h"
 #include "arm11/oaf_video.h"
@@ -319,6 +320,15 @@ Result oafInitAndRun(void)
 
 			patchRom(romFilePath, &romSize);
 			free(romFilePath);
+
+			// Load cheats and send to ARM9 (before preparing GBA mode).
+			res = loadCheats("cheats.cht");
+			if(res != RES_OK) break;
+			if(getCheatCount() > 0)
+			{
+				res = LGY_setGbaCheats(getCheatData(), getCheatCount());
+				if(res != RES_OK) break;
+			}
 
 			// Set audio output and volume.
 			CODEC_setAudioOutput(g_oafConfig.audioOut);
